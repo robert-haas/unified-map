@@ -12,4 +12,4 @@ __all__ = [
 # Versioning scheme: Semantic Versioning
 # - https://packaging.python.org/guides/distributing-packages-using-setuptools/#scheme-choices
 # - https://semver.org
-__version__ = '1.4.0'
+__version__ = '1.0.0'
