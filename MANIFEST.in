@@ -1,0 +1,13 @@
+# Copyright 2018 Robert Haas
+# For license information, see LICENSE.TXT
+
+include LICENSE.txt
+include Makefile
+include MANIFEST.in
+include pylintrc
+include README.rst
+
+recursive-include tests *.py
+recursive-include benchmarks *.py
+
+global-exclude *.py[cod] __pycache__

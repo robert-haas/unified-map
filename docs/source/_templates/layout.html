@@ -1,0 +1,19 @@
+{% extends "!layout.html" %}
+  {% block footer %} {{ super() }}
+
+  <style>
+    /* https://stackoverflow.com/questions/44793811/change-the-colors-of-the-sphinx-read-the-docs-theme?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa */
+
+    /* Sidebar header (and topbar for mobile) */
+    .wy-side-nav-search, .wy-nav-top {
+      background: #00864b;
+    }
+    /* Sidebar */
+    .wy-nav-side {
+      background: #343131;
+    }
+    a {
+      color: #b81118;
+    }
+  </style>
+{% endblock %}
