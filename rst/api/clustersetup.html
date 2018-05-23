@@ -1,0 +1,600 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Cluster setup &mdash; unified_map 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Package references" href="../references.html" />
+    <link rel="prev" title="Distributed execution" href="multivariate/distributed.html" /> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html">
+          
+
+          
+            
+            <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="univariate/index.html">Univariate functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multivariate/index.html">Multivariate functions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Cluster setup</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dask-cluster-setup">Dask cluster setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spark-cluster-setup">Spark cluster setup</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">Package references</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">unified_map</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="api.html">API</a> &raquo;</li>
+        
+      <li>Cluster setup</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/rst/api/clustersetup.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="cluster-setup">
+<span id="id1"></span><h1>Cluster setup<a class="headerlink" href="#cluster-setup" title="Permalink to this headline">¶</a></h1>
+<p>Distributed computing is a wide topic with inconsistent terminology. To reduce complexity,
+this package currently sticks to third-party libraries which basically follow a
+<strong>master-slave paradigm</strong>, or in less problematic terms, a <strong>scheduler-worker paradigm</strong>.
+For more nuances see
+<a class="reference external" href="https://distributed.readthedocs.io/en/latest/#architecture">Dask</a>
+and <a class="reference external" href="https://spark.apache.org/docs/latest/cluster-overview.html">Apache Spark</a>.</p>
+<a class="reference internal image-reference" href="../../_images/cluster_architecture.svg"><div align="center" class="align-center"><img alt="Cluster architecture visualization: Image not found" src="../../_images/cluster_architecture.svg" width="40%" /></div>
+</a>
+<p>What steps are necessary to get going?</p>
+<blockquote>
+<div><ol class="arabic">
+<li><p class="first">Start a <strong>scheduler process</strong> (aka master, controller, manager, …),
+either on your local computer or on a node of the cluster.</p>
+<blockquote>
+<div><p><code class="code docutils literal notranslate"><span class="pre">start_scheduler(...)</span></code> is a Python function provided for this, see below.
+Alternatively, the libraries also provide a shell command for starting a scheduler.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Start some <strong>worker processes</strong> (aka slaves, …) on nodes of the cluster.
+By giving them the scheduler address, they can connect themselves to the scheduler
+via the local network.</p>
+<blockquote>
+<div><p><code class="code docutils literal notranslate"><span class="pre">start_worker(...)</span></code> is a Python function provided for this, see below.
+Alternatively, the libraries also provide a shell command for starting a worker.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Start a <strong>connection</strong> (aka client) from your computer to the scheduler via the
+local network.
+This allows you to send a computing task to the scheduler which in turn distributes it
+intelligently (load balancing, fault tolerance, …) to the nodes of the cluster. Once
+they completed their tasks, the results can be collected by the scheduler and sent back
+to your computer.</p>
+<blockquote>
+<div><p><code class="code docutils literal notranslate"><span class="pre">connect_to_scheduler(...)</span></code> is a Python function provided for this, see below.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Check the <strong>system status</strong>.</p>
+<blockquote>
+<div><p><code class="code docutils literal notranslate"><span class="pre">report_status(...)</span></code> is a Python function provided for this, see below.</p>
+</div></blockquote>
+</li>
+</ol>
+</div></blockquote>
+<p>How can a program (e.g. a worker process) be started on a cluster node?</p>
+<blockquote>
+<div>An initial assumption is that every node has the same Python environment
+(=same interpreter and library versions) as your local computer.
+One way to start a program remotely on a cluster node would be to connect
+via SSH and run it from the shell (best with a
+<a class="reference external" href="https://en.wikipedia.org/wiki/Terminal_multiplexer">terminal multiplexer</a>
+like
+<a class="reference external" href="https://en.wikipedia.org/wiki/GNU_Screen">GNU Screen</a>).
+However, usually a cluster has a <strong>cluster manager</strong> (e.g.
+<a class="reference external" href="https://en.wikipedia.org/wiki/Oracle_Grid_Engine">Sun Grid Engine</a>,
+<a class="reference external" href="https://en.wikipedia.org/wiki/Apache_Mesos">Apache Mesos</a>, or
+<a class="reference external" href="https://en.wikipedia.org/wiki/List_of_cluster_management_software">others</a>)
+who is in charge and provides users with computing resources on demand. This means
+one needs to first request resources (CPU cores, RAM) on the cluster
+and submit a job that is executed at some time.
+Since cluster managers differ substantially, please refer to its documentation
+or ask a cluster administrator for help.</div></blockquote>
+<div class="section" id="dask-cluster-setup">
+<span id="id2"></span><h2>Dask cluster setup<a class="headerlink" href="#dask-cluster-setup" title="Permalink to this headline">¶</a></h2>
+<p>The object <code class="code docutils literal notranslate"><span class="pre">unified_map.cluster_setup.dask</span></code> provides methods to configure
+this package and Dask for distributed computing.
+It is an instance of the class outlined below.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Do not try to instantiate the class yourself.
+The package will only recognize the object
+<code class="code docutils literal notranslate"><span class="pre">unified_map.cluster_setup.dask</span></code> that was created during import.</p>
+</div>
+<dl class="class">
+<dt id="unified_map.cluster_setup._DaskSetup">
+<em class="property">class </em><code class="descclassname">unified_map.cluster_setup.</code><code class="descname">_DaskSetup</code><a class="headerlink" href="#unified_map.cluster_setup._DaskSetup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setup Dask for distributed computing on a cluster.</p>
+<p class="rubric">References</p>
+<ul>
+<li><p class="first">Dask’s command line interface</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://dask.pydata.org/en/latest/setup/cli.html">http://dask.pydata.org/en/latest/setup/cli.html</a></li>
+<li><a class="reference external" href="https://distributed.readthedocs.io/en/latest/setup.html#using-the-command-line">https://distributed.readthedocs.io/en/latest/setup.html#using-the-command-line</a></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Programmatic use of Dask</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://dask.pydata.org/en/latest/setup/python-advanced.html">http://dask.pydata.org/en/latest/setup/python-advanced.html</a></li>
+<li><a class="reference external" href="http://distributed.readthedocs.io/en/latest/setup.html#using-the-python-api">http://distributed.readthedocs.io/en/latest/setup.html#using-the-python-api</a></li>
+<li><a class="reference external" href="http://distributed.readthedocs.io/en/latest/api.html">http://distributed.readthedocs.io/en/latest/api.html</a></li>
+<li><a class="reference external" href="http://www.tornadoweb.org/en/stable/ioloop.html">http://www.tornadoweb.org/en/stable/ioloop.html</a></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<dl class="method">
+<dt id="unified_map.cluster_setup._DaskSetup.start_scheduler">
+<code class="descname">start_scheduler</code><span class="sig-paren">(</span><em>scheduler_address</em><span class="sig-paren">)</span><a class="headerlink" href="#unified_map.cluster_setup._DaskSetup.start_scheduler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start a scheduler process. It occupies the Python interpreter until stopped externally.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>scheduler_address</strong> – Desired scheduler address of the form ‘ip-address:port’</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ConnectionError</span></code> – If scheduler can not be started with the given address.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">start_scheduler</span><span class="p">(</span><span class="s1">&#39;127.0.0.1:8791&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>A scheduler process can also be started with Dask’s command line interface,
+for example:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span>$ dask-scheduler --host 127.0.0.1 --port 8791
+</pre></div>
+</div>
+</div>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><a class="reference external" href="http://distributed.readthedocs.io/en/latest/scheduling-state.html#distributed.scheduler.Scheduler">http://distributed.readthedocs.io/en/latest/scheduling-state.html#distributed.scheduler.Scheduler</a></li>
+<li><a class="reference external" href="http://www.tornadoweb.org/en/stable/ioloop.html#tornado.ioloop.IOLoop.handle_callback_exception">http://www.tornadoweb.org/en/stable/ioloop.html#tornado.ioloop.IOLoop.handle_callback_exception</a></li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="unified_map.cluster_setup._DaskSetup.start_worker">
+<code class="descname">start_worker</code><span class="sig-paren">(</span><em>scheduler_address</em>, <em>max_memory='auto'</em>, <em>num_cores=1</em><span class="sig-paren">)</span><a class="headerlink" href="#unified_map.cluster_setup._DaskSetup.start_worker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start a worker process. It occupies the Python interpreter until stopped externally.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>scheduler_address</strong> – Address of running scheduler of the form ‘ip-address:port’</li>
+<li><strong>max_memory</strong> (<em>optional</em>) – Amount of memory that this worker may use. Can be number of
+bytes (0 = no limit), ‘auto’ for 60% of memory or a string like ‘5GB’</li>
+<li><strong>num_cores</strong> (<em>optional</em>) – Number of cores that this worker will use</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">start_worker</span><span class="p">(</span><span class="s1">&#39;127.0.0.1:8791&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>A worker process can also be started with Dask’s command line interface,
+for example:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span>$ dask-worker &#39;127.0.0.1:8791&#39;
+</pre></div>
+</div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Prevent crashes:
+Be careful with having a memory limit when using a Nanny process
+(CLI does so automatically):
+“At 95% memory load a worker’s nanny process will terminate it. This is to avoid
+having our worker job being terminated by an external job scheduler
+(like YARN, Mesos, SGE, etc.).”</p>
+</div>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><a class="reference external" href="http://distributed.readthedocs.io/en/latest/worker.html">http://distributed.readthedocs.io/en/latest/worker.html</a></li>
+<li><a class="reference external" href="http://distributed.readthedocs.io/en/latest/worker.html#command-line-tool">http://distributed.readthedocs.io/en/latest/worker.html#command-line-tool</a></li>
+<li><a class="reference external" href="http://distributed.readthedocs.io/en/latest/worker.html#distributed.worker.Worker">http://distributed.readthedocs.io/en/latest/worker.html#distributed.worker.Worker</a></li>
+<li><a class="reference external" href="http://www.tornadoweb.org/en/stable/ioloop.html#tornado.ioloop.IOLoop.handle_callback_exception">http://www.tornadoweb.org/en/stable/ioloop.html#tornado.ioloop.IOLoop.handle_callback_exception</a></li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="unified_map.cluster_setup._DaskSetup.connect_to_scheduler">
+<code class="descname">connect_to_scheduler</code><span class="sig-paren">(</span><em>scheduler_address</em><span class="sig-paren">)</span><a class="headerlink" href="#unified_map.cluster_setup._DaskSetup.connect_to_scheduler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start a connection to a running scheduler. The Python interpreter is not occupied.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>scheduler_address</strong> – Address of running scheduler of the form ‘ip-address:port’</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">connect_to_scheduler</span><span class="p">(</span><span class="s1">&#39;127.0.0.1:8791&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><a class="reference external" href="http://distributed.readthedocs.io/en/latest/client.html">http://distributed.readthedocs.io/en/latest/client.html</a></li>
+<li><a class="reference external" href="http://distributed.readthedocs.io/en/latest/api.html#distributed.client.Client">http://distributed.readthedocs.io/en/latest/api.html#distributed.client.Client</a></li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="unified_map.cluster_setup._DaskSetup.report_status">
+<code class="descname">report_status</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#unified_map.cluster_setup._DaskSetup.report_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print information about the current cluster setup and status of the system.</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><a class="reference external" href="http://distributed.readthedocs.io/en/latest/api.html#distributed.client.Client.get_versions">http://distributed.readthedocs.io/en/latest/api.html#distributed.client.Client.get_versions</a></li>
+<li><a class="reference external" href="http://distributed.readthedocs.io/en/latest/api.html#distributed.client.Client.profile">http://distributed.readthedocs.io/en/latest/api.html#distributed.client.Client.profile</a></li>
+<li><a class="reference external" href="http://distributed.readthedocs.io/en/latest/api.html#distributed.client.Client.scheduler_info">http://distributed.readthedocs.io/en/latest/api.html#distributed.client.Client.scheduler_info</a></li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="spark-cluster-setup">
+<span id="id3"></span><h2>Spark cluster setup<a class="headerlink" href="#spark-cluster-setup" title="Permalink to this headline">¶</a></h2>
+<p>The object <code class="code docutils literal notranslate"><span class="pre">unified_map.cluster_setup.spark</span></code> provides methods to configure
+this package and Apache Spark for distributed computing.
+It is an instance of the class outlined below.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Do not try to instantiate the class yourself.
+The package will only recognize the object
+<code class="code docutils literal notranslate"><span class="pre">unified_map.cluster_setup.spark</span></code> that was created during import.</p>
+</div>
+<dl class="class">
+<dt id="unified_map.cluster_setup._SparkSetup">
+<em class="property">class </em><code class="descclassname">unified_map.cluster_setup.</code><code class="descname">_SparkSetup</code><a class="headerlink" href="#unified_map.cluster_setup._SparkSetup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setup Apache Spark (Python bindings via pyspark) for distributed computing on a Cluster.</p>
+<p class="rubric">References</p>
+<ul>
+<li><p class="first">Apache Spark’s command line interface</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://spark.apache.org/docs/latest/#launching-on-a-cluster">https://spark.apache.org/docs/latest/#launching-on-a-cluster</a></li>
+<li><a class="reference external" href="https://spark.apache.org/docs/latest/cluster-overview.html">https://spark.apache.org/docs/latest/cluster-overview.html</a></li>
+<li><a class="reference external" href="https://spark.apache.org/docs/latest/spark-standalone.html#starting-a-cluster-manually">https://spark.apache.org/docs/latest/spark-standalone.html#starting-a-cluster-manually</a></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Programmatic use of Apache Spark via pyspark</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://spark.apache.org/docs/2.2.0/api/python/index.html">http://spark.apache.org/docs/2.2.0/api/python/index.html</a></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<dl class="method">
+<dt id="unified_map.cluster_setup._SparkSetup.start_scheduler">
+<code class="descname">start_scheduler</code><span class="sig-paren">(</span><em>scheduler_address</em><span class="sig-paren">)</span><a class="headerlink" href="#unified_map.cluster_setup._SparkSetup.start_scheduler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start a scheduler process. It occupies the Python interpreter until stopped externally.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>scheduler_address</strong> – Desired scheduler address of the form ‘ip-address:port’</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">start_scheduler</span><span class="p">(</span><span class="s1">&#39;127.0.0.1:7077&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>A scheduler process can also be started with Apache Spark’s command line interface,
+for example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ $SPARK_HOME/sbin/start-master.sh --host 127.0.0.1 --port 7077
+</pre></div>
+</div>
+<p>It needs to be stopped afterwards:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ $SPARK_HOME/sbin/stop-master.sh
+</pre></div>
+</div>
+<p class="last">The status can be monitored in a Webbrowser at <a class="reference external" href="http://localhost:8080">http://localhost:8080</a> or another
+reported address.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="unified_map.cluster_setup._SparkSetup.start_worker">
+<code class="descname">start_worker</code><span class="sig-paren">(</span><em>scheduler_address</em><span class="sig-paren">)</span><a class="headerlink" href="#unified_map.cluster_setup._SparkSetup.start_worker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start a worker process. It occupies the Python interpreter until stopped externally.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>scheduler_address</strong> – Address of running scheduler of the form ‘ip-address:port’</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">start_worker</span><span class="p">(</span><span class="s1">&#39;127.0.0.1:7077&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>A worker process can also be started with Apache Spark’s command line interface,
+for example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ $SPARK_HOME/sbin/start-slave.sh spark://127.0.0.1:7077 --work-dir $HOME/temp_spark_worker
+</pre></div>
+</div>
+<p>It needs to be stopped afterwards:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span>$ $SPARK_HOME/sbin/stop-slave.sh
+</pre></div>
+</div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="unified_map.cluster_setup._SparkSetup.connect_to_scheduler">
+<code class="descname">connect_to_scheduler</code><span class="sig-paren">(</span><em>scheduler_address</em><span class="sig-paren">)</span><a class="headerlink" href="#unified_map.cluster_setup._SparkSetup.connect_to_scheduler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start a connection to a running scheduler. The Python interpreter is not occupied.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>scheduler_address</strong> – Address of running scheduler of the form ‘ip-address:port’</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">connect_to_scheduler</span><span class="p">(</span><span class="s1">&#39;127.0.0.1:7077&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><a class="reference external" href="http://spark.apache.org/docs/latest/api/python/pyspark.html#pyspark.SparkContext">http://spark.apache.org/docs/latest/api/python/pyspark.html#pyspark.SparkContext</a></li>
+</ul>
+</dd></dl>
+
+<dl class="method">
+<dt id="unified_map.cluster_setup._SparkSetup.report_status">
+<code class="descname">report_status</code><span class="sig-paren">(</span><em>depth=None</em><span class="sig-paren">)</span><a class="headerlink" href="#unified_map.cluster_setup._SparkSetup.report_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print information about the current cluster setup and status of the system.</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><a class="reference external" href="http://spark.apache.org/docs/latest/api/python/pyspark.html#pyspark.SparkContext">http://spark.apache.org/docs/latest/api/python/pyspark.html#pyspark.SparkContext</a></li>
+<li><a class="reference external" href="http://spark.apache.org/docs/latest/api/python/pyspark.html#pyspark.SparkContext.statusTracker">http://spark.apache.org/docs/latest/api/python/pyspark.html#pyspark.SparkContext.statusTracker</a></li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../references.html" class="btn btn-neutral float-right" title="Package references" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="multivariate/distributed.html" class="btn btn-neutral" title="Distributed execution" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Robert Haas.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>  
+
+  <style>
+    /* https://stackoverflow.com/questions/44793811/change-the-colors-of-the-sphinx-read-the-docs-theme?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa */
+
+    /* Sidebar header (and topbar for mobile) */
+    .wy-side-nav-search, .wy-nav-top {
+      background: #00864b;
+    }
+    /* Sidebar */
+    .wy-nav-side {
+      background: #343131;
+    }
+    a {
+      color: #b81118;
+    }
+  </style>
+
+
+</body>
+</html>

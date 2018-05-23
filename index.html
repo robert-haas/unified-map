@@ -1,0 +1,480 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Unified Map &mdash; unified_map 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API" href="rst/api/api.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#">
+          
+
+          
+            
+            <img src="_static/logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="rst/api/api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rst/references.html">Package references</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">unified_map</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>Unified Map</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="unified-map">
+<h1>Unified Map<a class="headerlink" href="#unified-map" title="Permalink to this headline">¶</a></h1>
+<a class="reference external image-reference" href="https://docs.python.org/3"><img alt="Python 3 |" src="https://img.shields.io/badge/Python-3-00864b.svg" /></a>
+<a class="reference external image-reference" href="https://pypi.org/project/unified-map/1.0.0"><img alt="Release v1.0.0 |" src="https://img.shields.io/badge/Release-v1.0.0-00864b.svg" /></a>
+<a class="reference external image-reference" href="https://www.apache.org/licenses/LICENSE-2.0"><img alt="License Apache 2.0" src="https://img.shields.io/badge/Licence-Apache%202.0-00864b.svg" /></a>
+<dl class="docutils">
+<dt>Unified</dt>
+<dd><em>Many implementations, one way of access.</em></dd>
+<dt>Map</dt>
+<dd><em>Apply a function to a list of arguments and collect the results
+– serial, parallel or distributed.</em></dd>
+</dl>
+<div class="section" id="purpose">
+<h2>Purpose<a class="headerlink" href="#purpose" title="Permalink to this headline">¶</a></h2>
+<p>This package provides reasonably simple syntax for a frequent programming task
+which is implemented in various places (built-in, standard library, external libraries).
+Here are three descriptions of this task:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://en.wikipedia.org/wiki/Map_(higher-order_function)">Map</a>
+a list of inputs to a list of results via a user-provided function.</li>
+<li><a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.Series.apply.html">Apply</a>
+a given function to a list of arguments to get a list of return values in the same order.</li>
+<li><a class="reference external" href="https://en.wikipedia.org/wiki/Black_box">A black-box function</a>
+is evaluated with different inputs and the outputs are collected.</li>
+</ul>
+<p>In general, this is a so-called
+<a class="reference external" href="https://en.wikipedia.org/wiki/Embarrassingly_parallel">“pleasingly parallel problem”</a>
+(aka “embarrassingly parallel” or “pleasingly parallel”)
+because it is straightforward to separate it into independend subtasks.
+For this reason, and due to its frequent occurrence, it is recognized as a
+<a class="reference external" href="https://en.wikipedia.org/wiki/Map_(parallel_pattern)">programming idiom</a>
+(“parallel map”, “parallel for loop”)
+in <strong>parallel computing</strong> that can equally simple be applied in <strong>distributed computing</strong>.
+This package allows to do so with a focus on simplicity of use.</p>
+</div>
+<div class="section" id="use-cases">
+<h2>Use cases<a class="headerlink" href="#use-cases" title="Permalink to this headline">¶</a></h2>
+<p>The function can be <strong>univariate</strong> (=takes one argument) or
+<strong>multivariate</strong> (=takes several arguments).</p>
+<a class="reference internal image-reference" href="_images/functions.svg"><div align="center" class="align-center"><img alt="Functions visualization: Image not found" src="_images/functions.svg" width="60%" /></div>
+</a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>The evaluation can be executed in a <strong>serial</strong> (=on one core), <strong>parallel</strong> (=on several cores)
+or <strong>distributed</strong> (=on several machines) way.</p>
+<a class="reference internal image-reference" href="_images/execution_modes.svg"><div align="center" class="align-center"><img alt="Execution modes visualization: Image not found" src="_images/execution_modes.svg" width="80%" /></div>
+</a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The arrows indicate that <strong>parallel</strong> and <strong>distributed</strong> calculations send <em>objects</em>
+to other processes or machines, namely the <em>elements of the input list</em>, the <em>function</em>
+and the <em>elements of the result list</em>.
+This implies that all of these <strong>objects need to be serializable</strong>,
+which is not always the case:</p>
+<ul class="last simple">
+<li>If a library uses Python’s <a class="reference external" href="https://docs.python.org/3/library/pickle.html">pickle module</a>
+for object serialization, then only <a class="reference external" href="https://docs.python.org/3/library/pickle.html#what-can-be-pickled-and-unpickled">certain objects</a>
+can be “pickled”, i.e. be transformed in a binary serialization format.
+For example, a
+<a class="reference external" href="https://docs.python.org/3/tutorial/controlflow.html#lambda-expressions">lambda expression</a>
+will not work as function, since it can not be pickled.</li>
+<li>Some libraries use improved serialization functionality from elsewhere, e.g.
+<a class="reference external" href="https://github.com/uqfoundation/dill">dill</a> or
+<a class="reference external" href="https://github.com/cloudpipe/cloudpickle">cloudpickle</a>.</li>
+<li>Some libraries implement their own advanced serialization routines, e.g.
+<a class="reference external" href="https://pythonhosted.org/joblib/persistence.html">joblib</a> or
+<a class="reference external" href="http://distributed.readthedocs.io/en/latest/serialization.html">dask</a>.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first"><strong>Complete installation</strong> = with all optional dependencies</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install <span class="s2">&quot;unified-map[complete]&quot;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><em>Apache Spark</em> installation currently can not be automated correctly.
+If you want to use it, please install it manually as described below.</p>
+</div>
+</li>
+<li><p class="first"><strong>Minimal installation</strong> = with no optional dependencies</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install unified-map
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">Functions that rely on third-party libraries will not work.
+You can, however, install any optional dependency you want to use by yourself, see below.</div>
+</div>
+</li>
+<li><p class="first"><strong>Optional dependencies</strong></p>
+<ul>
+<li><p class="first"><a class="reference external" href="https://pythonhosted.org/joblib/installing.html">Joblib installation</a></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install joblib
+</pre></div>
+</div>
+</li>
+<li><p class="first"><a class="reference external" href="http://dask.pydata.org/en/latest/install.html">Dask installation</a></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install <span class="s2">&quot;dask[complete]&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><a class="reference external" href="https://spark.apache.org/docs/latest/index.html#downloading">Apache Spark installation</a></p>
+<p>Apache Spark is written in Scala and provides APIs for several languages (incl. Python).</p>
+<ul>
+<li><p class="first">There is a <a class="reference external" href="https://pypi.org/project/pyspark">“Python packaged version of Spark”
+available on PyPI</a>
+that could be installed with <code class="code docutils literal notranslate"><span class="pre">pip</span></code>. This does, however, not include
+the necessary scripts (e.g. for starting workers),
+therefore manual installation is required.</p>
+</li>
+<li><p class="first">The <a class="reference external" href="http://spark.apache.org/downloads.html">“pre-packaged Apache Spark” needs to be
+downloaded from here</a>.
+Extract it in a desired place in your file system (e.g. <code class="code docutils literal notranslate"><span class="pre">$HOME/bin/spark</span></code>).
+Then certain environment variables need to be set (e.g. in <code class="code docutils literal notranslate"><span class="pre">.bashrc</span></code>)
+so that Apache Spark can be found in the shell and in Python.
+Most importantly, <code class="code docutils literal notranslate"><span class="pre">SPARK_HOME</span></code> needs to point at the installation directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">SPARK_HOME</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/bin/spark/spark-2.3.0-bin-hadoop2.7/&quot;</span>
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$SPARK_HOME</span><span class="s2">/bin/:</span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+<span class="nb">export</span> <span class="nv">PYTHONPATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$SPARK_HOME</span><span class="s2">/python/:</span><span class="nv">$PYTHONPATH</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Apache Spark uses <a class="reference external" href="https://www.py4j.org">Py4J</a>
+to access Java objects from a Python interpreter:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install py4j
+</pre></div>
+</div>
+</li>
+<li><p class="first">Apache Spark is written in Scala which runs on a Java Virtual Machine,
+hence it may be necessary to install or update
+Java on your machine. The documentation indicates that <code class="code docutils literal notranslate"><span class="pre">Java</span> <span class="pre">8+</span></code>
+is required.</p>
+<ul class="simple">
+<li>On a Linux system you can check your Java version on the command line
+with <code class="code docutils literal notranslate"><span class="pre">java</span> <span class="pre">-version</span></code>.</li>
+<li>An <a class="reference external" href="http://openjdk.java.net/">open-source implementations like OpenJDK</a>
+may work (no guarantee!).</li>
+<li>If necessary, install the
+<a class="reference external" href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">official Java Runtime Environment (JRE) from Oracle</a>.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="quickstart">
+<span id="id1"></span><h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
+<p>Univariate function applied to a list of arguments where each element is a single value</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unified_map</span> <span class="k">as</span> <span class="nn">umap</span>
+
+<span class="k">def</span> <span class="nf">square</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+
+<span class="c1"># Serial on one core</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">univariate</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">for_loop</span><span class="p">(</span><span class="n">square</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">univariate</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">generator_expression</span><span class="p">(</span><span class="n">square</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">univariate</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">generator_function</span><span class="p">(</span><span class="n">square</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">univariate</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">list_comprehension</span><span class="p">(</span><span class="n">square</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">univariate</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">square</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">univariate</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">starmap</span><span class="p">(</span><span class="n">square</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># Parallel on several cores</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">univariate</span><span class="o">.</span><span class="n">parallel</span><span class="o">.</span><span class="n">dask</span><span class="p">(</span><span class="n">square</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">univariate</span><span class="o">.</span><span class="n">parallel</span><span class="o">.</span><span class="n">futures</span><span class="p">(</span><span class="n">square</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">univariate</span><span class="o">.</span><span class="n">parallel</span><span class="o">.</span><span class="n">joblib</span><span class="p">(</span><span class="n">square</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">univariate</span><span class="o">.</span><span class="n">parallel</span><span class="o">.</span><span class="n">multiprocessing</span><span class="p">(</span><span class="n">square</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># Distributed on several machines</span>
+<span class="n">umap</span><span class="o">.</span><span class="n">cluster_setup</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">connect_to_scheduler</span><span class="p">(</span><span class="s1">&#39;10.0.0.5:7077&#39;</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">univariate</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">spark</span><span class="p">(</span><span class="n">square</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+<span class="n">umap</span><span class="o">.</span><span class="n">cluster_setup</span><span class="o">.</span><span class="n">dask</span><span class="o">.</span><span class="n">connect_to_scheduler</span><span class="p">(</span><span class="s1">&#39;10.0.0.5:8789&#39;</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">univariate</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">dask</span><span class="p">(</span><span class="n">square</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Multivariate function applied ot a list of arguments where each element is a tuple of values</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">unified_map</span> <span class="k">as</span> <span class="nn">umap</span>
+
+<span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="o">+</span><span class="n">z</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span> <span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">27</span><span class="p">)]</span>
+
+<span class="c1"># Serial on one core</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">multivariate</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">for_loop</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">multivariate</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">generator_expression</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">multivariate</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">generator_function</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">multivariate</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">list_comprehension</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">multivariate</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">multivariate</span><span class="o">.</span><span class="n">serial</span><span class="o">.</span><span class="n">starmap</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># Parallel on several cores</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">multivariate</span><span class="o">.</span><span class="n">parallel</span><span class="o">.</span><span class="n">dask</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">multivariate</span><span class="o">.</span><span class="n">parallel</span><span class="o">.</span><span class="n">futures</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">multivariate</span><span class="o">.</span><span class="n">parallel</span><span class="o">.</span><span class="n">joblib</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">multivariate</span><span class="o">.</span><span class="n">parallel</span><span class="o">.</span><span class="n">multiprocessing</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># Distributed on several machines</span>
+<span class="n">umap</span><span class="o">.</span><span class="n">cluster_setup</span><span class="o">.</span><span class="n">dask</span><span class="o">.</span><span class="n">connect_to_scheduler</span><span class="p">(</span><span class="s1">&#39;10.0.0.5:8789&#39;</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">multivariate</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">dask</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+<span class="n">umap</span><span class="o">.</span><span class="n">cluster_setup</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">connect_to_scheduler</span><span class="p">(</span><span class="s1">&#39;10.0.0.5:7077&#39;</span><span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">multivariate</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">spark</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p><code class="code docutils literal notranslate"><span class="pre">connect_to_scheduler(&lt;address&gt;)</span></code> requires that a scheduler and workers
+were started in other processes, possibly running on remote machines,
+see <a class="reference internal" href="rst/api/clustersetup.html#cluster-setup"><span class="std std-ref">Cluster setup</span></a>.</p>
+<p>Start a scheduler in one terminal:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3
+&gt;&gt;&gt; import unified_map as umap
+&gt;&gt;&gt; umap.cluster_setup.dask.start_scheduler<span class="o">(</span><span class="s1">&#39;10.0.0.5:8789&#39;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>Start workers in other terminals:</p>
+<div class="last highlight-bash notranslate"><div class="highlight"><pre><span></span>$ python3
+&gt;&gt;&gt; import unified_map as umap
+&gt;&gt;&gt; umap.cluster_setup.dask.start_worker<span class="o">(</span><span class="s1">&#39;10.0.0.5:8789&#39;</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="more-detailed-information">
+<h2>More detailed information<a class="headerlink" href="#more-detailed-information" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="rst/api/api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rst/references.html">Package references</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="rst/api/api.html" class="btn btn-neutral float-right" title="API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Robert Haas.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>  
+
+  <style>
+    /* https://stackoverflow.com/questions/44793811/change-the-colors-of-the-sphinx-read-the-docs-theme?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa */
+
+    /* Sidebar header (and topbar for mobile) */
+    .wy-side-nav-search, .wy-nav-top {
+      background: #00864b;
+    }
+    /* Sidebar */
+    .wy-nav-side {
+      background: #343131;
+    }
+    a {
+      color: #b81118;
+    }
+  </style>
+
+
+</body>
+</html>
